@@ -1,0 +1,8 @@
+rule test_string
+{
+    strings:
+        $a = "test"
+
+    condition:
+        $a
+}

@@ -13,17 +13,33 @@ import yara
 
 
 def yara_sig_check(file):
-    print("Will check file with rule file(s)")
+    rule_path = "/Users/patricksacchet/PycharmProjects/Antivrus/rules"
+    try:
+        # Need something for accessing files with restrictions on access
+        rules = yara.compile(filepath = rule_path)
+        # Will scan the file for 60 seconds, any longer it will move on to the next file
+        matches = rules.match(file, timeout = 60)
+        if (len(matches) > 1):
+            print("File was hit: " + file)
+            time.sleep(5)
+            #sys.exit()
+    except :
+        print("Seems like there was an error with permissions")
 
 
-# Function will search through user's entire computer, checking files appropiately
+
+# Function will search through user's entire computer, checking files appropriately
+# @param: user_dir - Directory of the user's OS (should be base directory so we can search entire system)
+# @return: None (printing information on files, time to search, and scanning each file with Yara signatures
 def dir_search(user_dir):
     timer_start = time.time()
     file_number = 0
     for root, dirs, files in os.walk(user_dir, topdown=True):
         for name in files:
-            print("File found: " + name)
-            # Call function to check Yara signature
+            print("Scanning file: " + name)
+            # Call function to check file with Yara signatures
+            file_path = os.path.realpath(os.path.join(root, name))
+            yara_sig_check(file_path)
             file_number += 1
     timer_end = time.time()
     total_time = timer_end - timer_start
@@ -61,13 +77,15 @@ def get_os_type():
         sys.exit()
 
 def main():
-    #Will recursively go through user files initially
-        # Grab user direcotry, call recursive directory search function, compare using yara rules file(s)
-    #print ("Current working directory: " + os.getcwd())
+    # Will find user's type of OS and search through entire system, recording number of files and time taken to scan
+    # Should I compile rules as this runs? --> Check for updates on server then compile new rules
     print("Attempting to detect your system configuration... ")
     os = get_os_type()
     if (os == "windows"):
         dir = "C:\\"
+        dir_search(dir)
+    if (os == "mac"):
+        dir = "/"
         dir_search(dir)
 
 
