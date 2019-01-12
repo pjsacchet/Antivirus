@@ -7,3 +7,5 @@
 ### - GUI user can interact with to start scan/choose type of scan for system
 ### - Creation of personal server with database of Yara files that connects to external server to retrieve updates 
 ### - Server updates that update Yara rule files as soon as the application is launched 
+### - Output important results to text file named "Scan + date/time"
+### - Implement mulithread/multiproccess scanning 

@@ -18,7 +18,7 @@ def yara_sig_check(file):
     # Mac rule path
     #rule_path = "/Users/patricksacchet/PycharmProjects/Antivrus/rules"
     # Windows rule path (need to use raw string)
-    rule_path = r"C:\Users\Admin\PycharmProjects\Antivrus\rule_files"
+    rule_path = r"C:\Users\Patrick\rule_files"
     ### Need something for accessing files with restrictions on access ###
     ### Compile Yara rule files (if multiple files, I need to add to a dict) ###
     rules = yara.compile(filepath = rule_path)
