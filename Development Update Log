@@ -1,3 +1,8 @@
+01/11/19
+- Continuing to test Yara signature implementation
+- Struggling to get past permission errors while reading Yara rule files location
+
+------------------------------------------------------------------------------------------------------------------------
 01/06/19
 - Troubleshooting Mac OS directory searching
 - Mac OS directory search properly implemented
