@@ -14,22 +14,22 @@ import yara
 # @param:  file - file to check match for with Yara rules
 # @return: None (printing result/writing to log)
 def yara_sig_check(file):
-    # try:
-    # Mac rule path
-    #rule_path = "/Users/patricksacchet/PycharmProjects/Antivrus/rules"
-    # Windows rule path (need to use raw string)
-    rule_path = r"C:\Users\Patrick\rule_files"
-    ### Need something for accessing files with restrictions on access ###
-    ### Compile Yara rule files (if multiple files, I need to add to a dict) ###
-    rules = yara.compile(filepath = rule_path)
-    # Will scan the file for 60 seconds, any longer it will move on to the next file
-    matches = rules.match(file, timeout = 60)
-    if (len(matches) > 1):
-        print("File was hit: " + file)
-        time.sleep(5)
-        sys.exit()
-    #except :
-     #   print("Seems like there was an error with permissions")
+    try:
+        # Mac rule path
+        rule_path = "/Users/patricksacchet/PycharmProjects/Antivrus/rule_files/rules"
+        # Windows rule path (need to use raw string)
+        #rule_path = r"C:\Users\Patrick\rule_files"
+        ### Need something for accessing files with restrictions on access ###
+        ### Compile Yara rule files (if multiple files, I need to add to a dict) ###
+        rules = yara.compile(filepath = rule_path)
+        # Will scan the file for 60 seconds, any longer it will move on to the next file
+        matches = rules.match(file, timeout = 60)
+        if (len(matches) > 1):
+            print("File was hit: " + file)
+            time.sleep(5)
+            sys.exit()
+    except :
+        print("Seems like there was an error with permissions")
 
 
 
