@@ -1,0 +1,26 @@
+Patrick Sacchet (pjsacchet)
+Loyola University Maryland
+
+Short Term
+--------------------------
+- Keep track of files being hit by adding to list and printing/returning them
+- Have function that returns the rule path dependent on the OS
+
+
+
+
+Long Term
+--------------------------
+- Biggrep functionality
+- Server updates with Yara rules
+- GUI 
+
+
+
+"Main" Functionality
+--------------------------
+- Check OS type ---> Syntax can be optimized
+- Calls directory search function with proper OS type and root directory name
+	- Calls os.walk in user directory, grabs full file path, passes it to yara_sig_check
+		- Grabs correct directory dependent on OS type ***Create function for this***
+		- Compiles all Yara rules and compares with file being scanned ***Keep list of hit files***

@@ -15,19 +15,22 @@ import yara
 # @return: None (printing result/writing to log)
 def yara_sig_check(file):
     try:
-        # Mac rule path
-        rule_path = "/Users/patricksacchet/PycharmProjects/Antivrus/rule_files/rules"
-        # Windows rule path (need to use raw string)
-        #rule_path = r"C:\Users\Patrick\rule_files"
+        # MAC RULE PATH
+        # rule_path = "/Users/patricksacchet/PycharmProjects/Antivrus/rule_files/rules"
+        # WINDOWS RULE PATH (need to use raw string)
+        # rule_path = r"C:\Users\Patrick\rule_files"
+        # LINUX RULE PATH
+        rule_path = "/home/pjsacchet/PycharmProjects/Antivrus/rule_files/rules"
         ### Need something for accessing files with restrictions on access ###
         ### Compile Yara rule files (if multiple files, I need to add to a dict) ###
         rules = yara.compile(filepath = rule_path)
         # Will scan the file for 60 seconds, any longer it will move on to the next file
         matches = rules.match(file, timeout = 60)
-        if (len(matches) > 1):
+        if (len(matches) > 0):
+            # Grab proper filename not directory 
             print("File was hit: " + file)
             time.sleep(5)
-            sys.exit()
+            sys.exit(1)
     except :
         print("Seems like there was an error with permissions")
 
@@ -52,6 +55,19 @@ def dir_search(user_dir):
     print("Total files found: " + str(file_number))
     # Windows (Command: dir /s /a-d c:\) found 600836 files, this found 584755 files ---> Is this truly finding ALL files?
 
+# Function will grab proper directory depending on OS type
+# @param: os_type - Type of OS which will tell us which directory location we should use for Yara rule files
+# #return - Directory path for Yara rules
+def get_rule_dir(os_type):
+    # Check os type from os function
+    # Return proper path for yara sig check function
+    # MAC RULE PATH
+    # rule_path = "/Users/patricksacchet/PycharmProjects/Antivrus/rule_files/rules"
+    # WINDOWS RULE PATH (need to use raw string)
+    # rule_path = r"C:\Users\Patrick\rule_files"
+    # LINUX RULE PATH
+    # rule_path = "/home/pjsacchet/PycharmProjects/Antivrus/rule_files/rules"
+    return;
 
 # Function will detect the system configuration of the user and return a string representing said os
 # @return: OS type - Will identify User's OS type and return a string representation
@@ -62,7 +78,7 @@ def get_os_type():
         print("Executing commands... ")
         time.sleep(3)
         return "windows"
-    if(os == "linux"):
+    if(os.startswith("linux")):
         print("Platform detected: Linux")
         print("Executing commands... ")
         time.sleep(3)
@@ -91,6 +107,10 @@ def main():
         dir_search(dir)
     if (os == "mac"):
         dir = "/"
+        dir_search(dir)
+    # Only want to search my folder on school computers
+    if (os == "linux"):
+        dir = "/home/pjsacchet"
         dir_search(dir)
 
 
