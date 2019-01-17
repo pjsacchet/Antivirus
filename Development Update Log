@@ -1,3 +1,6 @@
+01/17/19
+- Starting work in Linux environment
+- Implementing virtual environment within Python for running this application
 01/11/19
 - Continuing to test Yara signature implementation
 - Struggling to get past permission errors while reading Yara rule files location
