@@ -1,4 +1,4 @@
-# Antivrus
+# Antivirus
 #### Author: Patrick Sacchet
 #### Date: 01/04/2019 (start)
 ## Description
