@@ -1,3 +1,8 @@
+1/19/19
+- Successfully implemented multi Yara signature file support (via dictionary)
+- Starting work on GUI
+- Still testing in Windows and Mac environments
+------------------------------------------------------------------------------------------------------------------------
 1/18/19
 - Program successfully scans system, keeps track of "malicious" files, and displays for user
 - Beginning to backtrack on syntax used to ensure program efficiency down the road

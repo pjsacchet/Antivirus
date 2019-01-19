@@ -11,8 +11,11 @@ Short Term
 --------------------------
 - Keep track of files being hit by adding to list and printing/returning them ---> COMPLETED
 - Have function that returns the rule path dependent on the OS ---> COMPLETED
+- Incorporate use of dictionaries for multiple rule files that Yara can compile ---> COMPLETED
 - Improve syntax optimization (multiple ifs is ugly)
 - Monitor computer resource usage while scanning
+- Compile Yara rules beforehand (don't have to do it everytime) ---> COMPLETED
+- Write results to file
 
 
 
@@ -27,10 +30,13 @@ Long Term
 "Main" Functionality
 --------------------------
 - Check OS type ---> Syntax can be optimized
-- Calls directory search function with proper OS type and root directory name
+- Creates a dictionary containing the Yara rule files that are held in the proper directory
+- Calls directory search function with proper root directory and dictionary of rule files
+    - Compiles Yara rules held within the Yara rule directory
 	- Calls os.walk in user directory, grabs full file path, passes it to yara_sig_check
-		- Grabs correct directory dependent on OS type ***Create function for this***
-		- Compiles all Yara rules and compares with file being scanned ***Keep list of hit files***
+		- Checks for matches and returns the file if there was a match
+	- Prints the total number of files scanned, the time taken to scan, the number of malicious files, and a list of said malicious files
+
 
 
 
