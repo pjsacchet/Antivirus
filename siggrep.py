@@ -11,8 +11,13 @@ import os
 import time
 import yara
 
-
-def write_file():
+# Function will write the file given to it, ensuring we open and immediately close for security measures
+# @param: filename - Name of the file to write to
+# @return: None
+def write_file(filename, string):
+    output_file = open(filename, "a+")
+    output_file.write(string)
+    output_file.close()
     return;
 
 
@@ -42,6 +47,8 @@ def yara_sig_check(file, rules):
         if (len(matches) > 0):
             # Grab proper filename not directory
             filename = os.path.splitext(os.path.basename(file))[0]
+            string = "File was hit: " + filename + " with rule: " + str(matches[0]) + "\n"
+            write_file("siggrep_output.txt", string)
             print("File was hit: " + filename + " with rule: " + str(matches[0]))
             return file
     except:
@@ -71,10 +78,12 @@ def dir_search(user_dir, rule_dict):
             file_number += 1
     timer_end = time.time()
     total_time = timer_end - timer_start
+    print("--------------------------------------------------------------------------------")
     print("This program discovered " + str(len(hit_files)) + " malicious files.")
-    print("List of all detected malicious files: " + str(hit_files))
+    print("Please note: all malicious files that were identified can be found in 'siggrep_output.txt'")
     print("Time taken to scan whole system: " + str(total_time))
     print("Total files found: " + str(file_number))
+    print("--------------------------------------------------------------------------------")
     # Windows (Command: dir /s /a-d c:\) found 600836 files, this found 584755 files ---> Is this truly finding ALL files?
 
 
@@ -90,7 +99,7 @@ def get_rule_dir(os_type):
         rule_path = "/Users/patricksacchet/PycharmProjects/Antivrus/rule_files/"
         return rule_path
     if(os_type.startswith("linux")):
-        rule_path = "/home/pjsacchet/PycharmProjects/Antivrus/rule_files/"
+        rule_path = "/home/pjsacchet/PycharmProjects/Antivirus/rule_files/"
         return rule_path
     return;
 
@@ -131,7 +140,8 @@ def main():
     print("Attempting to detect your system configuration... ")
     time.sleep(3)
     os = get_os_type()
-    output_file =
+    output_file = open("siggrep_output.txt", "w+")
+    output_file.close()
     # For any OS, get the proper rule path, create a dictionary with the rule files, and search through the user's computer
     if (os == "windows"):
         dir = "C:\\"
