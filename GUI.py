@@ -24,6 +24,7 @@ def iter_except(function, exception):
     except exception:
         return
 
+
 # Attempting to use multithreading to display the output from the command line in the window for the user
 class DisplaySubproccessOutput:
 
@@ -73,28 +74,29 @@ class DisplaySubproccessOutput:
         self.root.destroy()
 
 
-
-
-
-
 # Adding top portion of window
-top = Tkinter.Tk()
-top.title("Antivirus")
-top.geometry("500x300")
-
-app = DisplaySubproccessOutput(top)
-top.protocol("WM_DELETE_WINDOW", app.quit)
-
-top.eval('tk::PlaceWindow %s center' % top.winfo_pathname(top.winfo_id()))
-
-
-
-
+root = Tkinter.Tk()
+root.title("Antivirus")
+root.geometry("500x300")
+content = Tkinter.Frame(root)
+frame = Tkinter.Frame(content, borderwidth = 5, relief = 'sunken', width = 200, height = 300)
+namelbl = Tkinter.Label(content, text = "Name")
+name = Tkinter.Entry(content)
 
 # Adding button
+B1 = Tkinter.Button(root, text = "Run Scan", width = 25,  command = lambda : siggrep.main())
+B1.pack()
 
-#B1 = Tkinter.Button(top, text = "Run Scan", width = 25,  command = lambda : siggrep.main())
 
-#B1.pack()
+#content.grid(column =0, row = 0)
+frame.grid(column = 0, columnspan = 3, rowspan = 2)
+B1.grid(column = 4, row =4)
 
-top.mainloop()
+
+### NOT YET WORKING PROPERLY###
+#app = DisplaySubproccessOutput(top)
+#top.protocol("WM_DELETE_WINDOW", app.quit)
+#top.eval('tk::PlaceWindow %s center' % top.winfo_pathname(top.winfo_id()))
+
+
+root.mainloop()
