@@ -15,7 +15,7 @@ Short Term
 - Improve syntax optimization (multiple ifs is ugly)
 - Monitor computer resource usage while scanning
 - Compile Yara rules beforehand (don't have to do it everytime) ---> COMPLETED
-- Write results to file
+- Write results to file ---> COMPLETED
 
 
 
