@@ -1,5 +1,7 @@
 # @author - Patrick Sacchet
 # @version - 1.0 - 01/04/2019
+# PLEASE NOTE:
+    # In developing this program Python verison 2.7.14 and Yara 3.8.1 were used
 # Goal - Implement anitvirus usserface that will recursively go through user directories and use Yara signature files to identify malicious files
 # How:
 # Step 1: Implement proper directory searching functionality based on OS
@@ -19,7 +21,7 @@ def write_file(filename, string):
     output_file = open(filename, "a+")
     output_file.write(string)
     output_file.close()
-    return;
+    return
 
 
 # Purpose of this function will be to create a dictionary of Yara rule files to feed to the Yara compile funciton
@@ -100,7 +102,7 @@ def get_rule_dir(os_type):
     if(os_type.startswith("linux")):
         rule_path = "/home/pjsacchet/PycharmProjects/Antivirus/rule_files/"
         return rule_path
-    return;
+    return
 
 
 # Function will detect the system configuration of the user and return a string representing said os

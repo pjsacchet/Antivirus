@@ -1,3 +1,7 @@
+1/21/19
+- Testing using Windows, Mac and Linux devices (working properly on all three)
+- Continuing work on GUI using tkinter
+------------------------------------------------------------------------------------------------------------------------
 1/19/19
 - Successfully implemented multi Yara signature file support (via dictionary)
 - Implemented writing to output file functionality (no need to print hit files)
