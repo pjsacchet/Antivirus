@@ -24,6 +24,7 @@ Long Term
 - Biggrep functionality
 - Server updates with Yara rules (create server?)
 - GUI
+- Multithreading/mulitproccess searching
 
 
 

@@ -1,0 +1,23 @@
+1/21/19
+Scanning with only test_string rule
+------------------------------------------------------------------------------------------------------------------------
+Mac OS: ~98 GB ---> Only scanning Users directory otherwise won't complete 
+---------------
+- Stuck on "ptyp0" file during scan ---> could not finish entire search
+- Discovered 21219 malicious files
+- Time taken: 926.72 seconds
+- Total files scanned: 223578
+
+
+Linux OS: 23.7 MB (?) ---> Only scanning my user directory
+---------------
+- Discovered 880 malicious files
+- Time taken: 71.33 seconds
+- Total files scanned: 31272
+
+
+Windows OS: 156 GB ---> Scanned entire C drive
+---------------
+- Discovered 22970 malicious files
+- Time taken: 3228.24
+- Total files scanned: 304899
