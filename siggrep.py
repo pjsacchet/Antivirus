@@ -11,6 +11,7 @@ import os
 import time
 import yara
 
+
 # Function will write the file given to it, ensuring we open and immediately close for security measures
 # @param: filename - Name of the file to write to
 # @return: None
@@ -19,8 +20,6 @@ def write_file(filename, string):
     output_file.write(string)
     output_file.close()
     return;
-
-
 
 
 # Purpose of this function will be to create a dictionary of Yara rule files to feed to the Yara compile funciton
@@ -43,7 +42,7 @@ def yara_sig_check(file, rules):
     try:
         ### Need something for accessing files with restrictions on access ###
         # Will scan the file for 60 seconds, any longer it will move on to the next file
-        matches = rules.match(file, timeout = 60)
+        matches = rules.match(file, timeout=60)
         if (len(matches) > 0):
             # Grab proper filename not directory
             filename = os.path.splitext(os.path.basename(file))[0]
@@ -92,11 +91,11 @@ def dir_search(user_dir, rule_dict):
 # #return - Directory path for Yara rules
 def get_rule_dir(os_type):
     # Check os type from os function and return the proper rule path dependent on the OS
-    if(os_type == "win32"):
-        rule_path = r"C:\Users\Patrick\rule_files"
+    if(os_type == "windows"):
+        rule_path = r"C:\Users\Admin\PycharmProjects\Antivirus\rule_files"
         return rule_path
-    if (os_type == "darwin"):
-        rule_path = "/Users/patricksacchet/PycharmProjects/Antivrus/rule_files/"
+    if (os_type == "mac"):
+        rule_path = "/Users/patricksacchet/PycharmProjects/Antivirus/rule_files/"
         return rule_path
     if(os_type.startswith("linux")):
         rule_path = "/home/pjsacchet/PycharmProjects/Antivirus/rule_files/"
@@ -149,7 +148,7 @@ def main():
         rule_dict = mk_dict(rule_path)
         dir_search(dir, rule_dict)
     if (os == "mac"):
-        dir = "/"
+        dir = "/Users/"
         rule_path = get_rule_dir(os)
         rule_dict = mk_dict(rule_path)
         dir_search(dir, rule_dict)
