@@ -1,3 +1,6 @@
+1/25/19
+- Scrapping old GUI model, updated Python version to enable use of ttk module
+------------------------------------------------------------------------------------------------------------------------
 1/21/19
 - Testing using Windows, Mac and Linux devices (working properly on all three)
 - Continuing work on GUI using tkinter

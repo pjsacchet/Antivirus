@@ -1,7 +1,7 @@
 # @author - Patrick Sacchet
 # @version - 1.0 - 01/04/2019
 # PLEASE NOTE:
-    # In developing this program Python verison 2.7.14 and Yara 3.8.1 were used
+    # In developing this program Python verison 23.5.1 and Yara 3.8.1 were used
 # Goal - Implement anitvirus usserface that will recursively go through user directories and use Yara signature files to identify malicious files
 # How:
 # Step 1: Implement proper directory searching functionality based on OS

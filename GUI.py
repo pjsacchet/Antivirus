@@ -1,102 +1,45 @@
 # @author - Patrick Sacchet (pjsacchet)
 # @version - 1.0 - 1/21/19
 # PLEASE NOTE:
-    # In developing this program Python verison 2.7.14 and Yara 3.8.1 were used
+    # In developing this program Python verison 3.5.1 and Yara 3.8.1 were used
 # Goal - Implement GUI that will import functionality from siggrep.py and provide an interface for the user
 # How:
 # Step 1: Create plain text box with scan button, if pressed will begin scan
 # Step 2: Edit appearance of the box, make larger for user
 
 
-import Tkinter
-import subprocess
+import tkinter
+from tkinter import *
+from tkinter import ttk
 import siggrep
-import textwrap
-from threading import Thread
-import sys
-from Queue import Queue, Empty
 
 
-def iter_except(function, exception):
-    try:
-        while True:
-            yield function
-    except exception:
-        return
 
-
-# Attempting to use multithreading to display the output from the command line in the window for the user
-class DisplaySubproccessOutput:
-
-
-    def __init__(self, root):
-        self.root = root
-        self.process = subprocess.Popen([sys.executable, "-u", "-c", textwrap.dedent("""
-        import itertools, time
-        
-        for i in itertools.count():
-            print("%d.%d" % divmod(i, 10))
-            time.sleep(0.1)
-            
-        """)], stdout=subprocess.PIPE)
-
-        q = Queue(maxsize = 1024)
-        t = Thread(target = self.reader_thread, args = [q] )
-        t.daemon = True
-        t.start()
-        self.label = Tkinter.Label(root, text = " ", font = (None, 200))
-        self.label.pack(ipadx = 4, padx = 4, ipady = 4, pady = 4, fill = 'both')
-        self.update(q)
-
-
-    def reader_thread(self, q):
-        try:
-            with self.process.stdout as pipe:
-                for line in iter(pipe.readline, b''):
-                    q.put(line)
-        finally:
-            q.put(None)
-
-
-    def update(self, q):
-        for line in iter_except(q.get_nowait, Empty):
-            if line is None:
-                self.quit()
-                return
-            else:
-                self.label['text'] = line
-                break
-        self.root.after(40, self.update, q)
-
-
-    def quit(self):
-        self.process.kill()
-        self.root.destroy()
 
 
 # Adding top portion of window
-root = Tkinter.Tk()
+root = Tk()
 root.title("Antivirus")
 root.geometry("500x300")
-content = Tkinter.Frame(root)
-frame = Tkinter.Frame(content, borderwidth = 5, relief = 'sunken', width = 200, height = 300)
-namelbl = Tkinter.Label(content, text = "Name")
-name = Tkinter.Entry(content)
 
-# Adding button
-B1 = Tkinter.Button(root, text = "Run Scan", width = 25,  command = lambda : siggrep.main())
-B1.pack()
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column = 0, row = 0, sticky = (N, W, E, S))
+# Configure window properly if adjusted
+root.columnconfigure(0, weight = 1)
+root.rowconfigure(0, weight = 1)
 
 
-#content.grid(column =0, row = 0)
-frame.grid(column = 0, columnspan = 3, rowspan = 2)
-B1.grid(column = 4, row =4)
+# Adding button ---> drop down box
+scanButton = ttk.Button(root, text = "Run Scan", width = 25,  command = lambda : siggrep.main()).grid(column = 0, row = 0)
+
+progressBar = ttk.Progressbar(root, orient = "horizontal", length = 200,  mode = "indeterminate").grid(column = 0, row = 0, sticky = S)
 
 
-### NOT YET WORKING PROPERLY###
-#app = DisplaySubproccessOutput(top)
-#top.protocol("WM_DELETE_WINDOW", app.quit)
-#top.eval('tk::PlaceWindow %s center' % top.winfo_pathname(top.winfo_id()))
+
+
+
+
+
 
 
 root.mainloop()
