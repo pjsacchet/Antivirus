@@ -7,12 +7,12 @@
 # Step 1: Implement proper directory searching functionality based on OS
 # Step 2: Implement Yara recognition to correctly identify malicious files based on given signature files
 
-
 import sys
 import os
 import time
 import yara
-
+from pathlib import Path
+from threading import Thread
 
 # Function will write the file given to it, ensuring we open and immediately close for security measures
 # @param: filename - Name of the file to write to
@@ -22,7 +22,6 @@ def write_file(filename, string):
     output_file.write(string)
     output_file.close()
     return
-
 
 # Purpose of this function will be to create a dictionary of Yara rule files to feed to the Yara compile funciton
 # @param: rule_path - Path to the directory of all rule files
@@ -34,7 +33,6 @@ def mk_dict(rule_path):
         filepath = os.path.join(rule_path, file)
         rule_dict[file] = filepath
     return rule_dict
-
 
 # Function will open the filepath to the Yara rule files, compile them, and check to see if they match any of the files
 # @param:  file - file to check match for with Yara rules
@@ -54,7 +52,6 @@ def yara_sig_check(file, rules):
             return file
     except:
         print("Seems like there was an error with permissions")
-
 
 # Function will search through user's entire computer, checking files appropriately
 # @param: user_dir - Directory of the user's OS (should be base directory so we can search entire system)
@@ -87,14 +84,14 @@ def dir_search(user_dir, rule_dict):
     print("--------------------------------------------------------------------------------")
     # Windows (Command: dir /s /a-d c:\) found 600836 files, this found 584755 files ---> Is this truly finding ALL files?
 
-
 # Function will grab proper directory depending on OS type
 # @param: os_type - Type of OS which will tell us which directory location we should use for Yara rule files
 # #return - Directory path for Yara rules
 def get_rule_dir(os_type):
     # Check os type from os function and return the proper rule path dependent on the OS
     if(os_type == "windows"):
-        rule_path = r"C:\Users\Admin\PycharmProjects\Antivirus\rule_files"
+        rule_path = Path("C:/Users/Admin/Projects/Antivirus/rule_files")
+        print(rule_path)
         return rule_path
     if (os_type == "mac"):
         rule_path = "/Users/patricksacchet/PycharmProjects/Antivirus/rule_files/"
@@ -103,7 +100,6 @@ def get_rule_dir(os_type):
         rule_path = "/home/pjsacchet/PycharmProjects/Antivirus/rule_files/"
         return rule_path
     return
-
 
 # Function will detect the system configuration of the user and return a string representing said os
 # @param: None
@@ -134,7 +130,6 @@ def get_os_type():
         print("Platform not detected, exiting...")
         sys.exit()
 
-
 def main():
     # Will find user's type of OS and search through entire system, recording number of files, time taken to scan and files that were hit
     # Should I compile rules as this runs? --> Check for updates on server then compile new rules
@@ -160,7 +155,6 @@ def main():
         rule_path = get_rule_dir(os)
         rule_dict = mk_dict(rule_path)
         dir_search(dir, rule_dict)
-
 
 if __name__ == "__main__":
     main()

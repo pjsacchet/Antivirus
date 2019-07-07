@@ -1,3 +1,6 @@
+7/6/19
+- Getting back to work on multithreading functionality, and fixing file path problems in regards to Windows platforms
+------------------------------------------------------------------------------------------------------------------------
 1/25/19
 - Scrapping old GUI model, updated Python version to enable use of ttk module
 ------------------------------------------------------------------------------------------------------------------------
@@ -31,7 +34,7 @@
 - Linux OS is next ---> Need access to computer first
 - Instead working on Yara testing/implementation
 - Seems as though Yara does not support non ascii characters (for directories) ---> Fixed
-- Still need to test Yara signatures are picked up properly on test files 
+- Still need to test Yara signatures are picked up properly on test files
 ------------------------------------------------------------------------------------------------------------------------
 01/05/19
 - Finished implementation of Windows search functionality using os.walk instead of recursive calls of sub directories
