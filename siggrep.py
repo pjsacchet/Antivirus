@@ -11,6 +11,7 @@ import sys
 import os
 import time
 import yara
+import progressbar
 from pathlib import Path
 from threading import Thread
 
@@ -27,7 +28,7 @@ def write_file(filename, string):
 # @param: rule_path - Path to the directory of all rule files
 # @return: Dictionary containing all Yara rule files
 def mk_dict(rule_path):
-    # Will take the directory containing all signature files anc create a dictionary with the keys as the filenames, and values as their path values
+    # Will take the directory containing all signature files and create a dictionary with the keys as the filenames, and values as their path values
     rule_dict = {}
     for file in os.listdir(rule_path):
         filepath = os.path.join(rule_path, file)
@@ -48,10 +49,10 @@ def yara_sig_check(file, rules):
             filename = os.path.splitext(os.path.basename(file))[0]
             string = "File was hit: " + filename + " with rule: " + str(matches[0]) + "\n"
             write_file("siggrep_output.txt", string)
-            print("File was hit: " + filename + " with rule: " + str(matches[0]))
+            #print("File was hit: " + filename + " with rule: " + str(matches[0]))
             return file
     except:
-        print("Seems like there was an error with permissions")
+        pass
 
 # Function will search through user's entire computer, checking files appropriately
 # @param: user_dir - Directory of the user's OS (should be base directory so we can search entire system)
@@ -63,9 +64,19 @@ def dir_search(user_dir, rule_dict):
     file_number = 0
     # Compile Yara rules before starting scan
     rules = yara.compile(filepaths = rule_dict)
+    # Get total number of files on system for progressbar
+    print("Gathering your files...")
+    for root, dirs, files in os.walk(user_dir, topdown=True):
+        for file in files:
+            file_number += 1
+    print("Looks like you have " + str(file_number) + " files, scanning now...")
+    time.sleep(5)
+    file_counter = 0
+    bar = progressbar.ProgressBar(maxval = file_number, widgets = [progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+    bar.start()
     for root, dirs, files in os.walk(user_dir, topdown=True):
         for name in files:
-            print("Scanning file: " + name)
+            #print("Scanning file: " + name)
             # Call function to check file with Yara signatures
             file_path = os.path.realpath(os.path.join(root, name))
             scanned_file = (yara_sig_check(file_path, rules))
@@ -73,7 +84,9 @@ def dir_search(user_dir, rule_dict):
             if(scanned_file != None and hit_files.__contains__(scanned_file) == False):
                 scanned_file = os.path.splitext(os.path.basename(scanned_file))[0]
                 hit_files.append(scanned_file)
-            file_number += 1
+            file_counter += 1
+            bar.update(file_counter)
+    bar.finish()
     timer_end = time.time()
     total_time = timer_end - timer_start
     print("--------------------------------------------------------------------------------")
@@ -91,7 +104,6 @@ def get_rule_dir(os_type):
     # Check os type from os function and return the proper rule path dependent on the OS
     if(os_type == "windows"):
         rule_path = Path("C:/Users/Admin/Projects/Antivirus/rule_files")
-        print(rule_path)
         return rule_path
     if (os_type == "mac"):
         rule_path = "/Users/patricksacchet/PycharmProjects/Antivirus/rule_files/"
